@@ -50,8 +50,11 @@ export class UsuarioService {
     }
 
     async login(usuario: string, senha: string) {
-        const user = await this.usuarioRepository.findOne({ where: { usuario, senha } })
+        const user = await this.usuarioRepository.findOne({ where: { usuario } })
         if (!user) {
+            throw new Error(`Usuário ou senha inválidos`);
+        }
+        if (user.senha !== senha) {
             throw new Error(`Usuário ou senha inválidos`);
         }
         return user;
